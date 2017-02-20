@@ -24,41 +24,39 @@ android插件化方案
 
 其中Activity为宿主的manifest中声明的插件入口Activity。Fragment为插件开发需要继承的负责插件管理的Fragment。其中包含一个插件管理类PluginManager,负责插件的加载,插件资源的管理等。PluginManager主要包含两部分功能,一个是Load dex,另一个是构造插件的context,完成插件的资源管理。其中load dex负责插件的dex加载。构造插件的context是为了插件资源的加载。其中主要重写getClassLoader、getAssets()、getResource()三个方法。其中在后两个方法中,通过反射调用AssetManager的构造函数和addAssetPath方法,来构建插件自己的AssetManager,使插件具有资源加载的能力。
 
-至此,插件的总体方案基本完整。核心就是解决两个问题: 
+至此,插件的总体方案基本完整。核心就是解决两个问题:
+
 a) 编译期:资源和代码的编译
+
 b) 运行时:资源和代码的加载
 
 三、 具体细节 
 
 1.dex加载
-
 dex加载我们采用为每个插件建立一个独立的DexClassLoader,同时插件的DexClassLoader的父类均为宿主的DexClassLoader。这样插件之间的Dex ClassLoader为兄弟关系。保证了插件之间的隔离性。因为根据java ClassLoader双亲委托模型的结构可知,DexClassLoader的尝试加载顺序是自顶而下的,而不会去查找兄弟关系的DexClassLoader。所以这样即使插 件之间存在相同的class,也不会相互影响。同时由于这种结构,也能保证插件能够使用宿主中的所有class。
 Java双亲委托模型
 
 ￼￼2.resource处理
-
 通过反射调用AssetManager的构造函数构造自己的AssetManager对象,每一个插件构造一个AssetManager对象。然后通过反射调用AssetManager的 addAssetPath方法把插件的资源目录添加到AssetManager对象中。这样使AssetManager对象能够加载插件资源。然后用AssetManager对象构造一个 Resource对象用来管理插件资源。
 
 3.assets处理
-
 因为构造了插件自己的AssetManager,所以只要在插件Context中的getAssets()直接返回插件自己的AssetManager对象。
 
 4.service
-
 由于插件的动态加载特性,所以插件中无法注册service,如果需要使用service,可以在宿主的manifest中进行注册。插件中实现具体的业务逻辑 。Service启动后,把具体的业务处理跳转到具体插件中处理。
 
 5.broadcast
-
 同样由于插件的动态加载特性,插件中无法使用静态广播。如果需要静态广播,可以在宿主中进行注册,把具体的业务逻辑放入插件处理。如果使
 用动态广播,插件是可以支持的。
 
 6.database
-
 我们的插件与宿主是在同进程,所以插件是支持database的,但是涉及不同插件之间数据共享时,因为上面我们知道插件之间的隔离性。是不能直 接访问的。这时我们采用的策略是contentProvicer。插件中数据库管理模块,提供contentProvider为其他插件调用。通过contentProvider得到 的都是基础类型。但是有些时候我们需要传递自定义类型,如实体类。因为classLoader采用的是双亲委托模型。自顶向下的尝试加载,与自底向上 检查类是否加载的方式。决定了java对在判定两个class是否相同时,不仅要判断两个类名是否相同,而且要判断是否由同一个类加载器实例加载的 。只有两者同时满足的情况下,JVM才认为这两个class是相同的。就算两个class是同一份class字节码,如果被两个不同的ClassLoader实例所加载 ,JVM也会认为它们是两个不同class。比如网络上的一个Java类org.classloader.simple.NetClassLoaderSimple,javac编译之后生成字节码文件 NetClassLoaderSimple.class,ClassLoaderA和ClassLoaderB这两个类加载器并读取了NetClassLoaderSimple.class文件,并分别定义出了java.l ang.Class实例来表示这个类,对于JVM来说,它们是两个不同的实例对象,但它们确实是同一份字节码文件,如果试图将这个Class实例生成具体的 对象进行转换时,就会抛运行时异常java.lang.ClassCaseException,提示这是两个不同的类型。
 所以如果在插件A中定义一个实体类传到插件B中,插件B中虽然已经定义了同样的class,但是却无法转换成功。所以这时我们需要把需要使用的实 体类定义在一个公共组件中,同时这个组件应该由宿主去加载。这样在不同插件之间就能相互传递了。但是这引入了一个新问题。就是这个公共组 件的维护问题,因为插件升级造成接口改变,导致公共组件中的实体类对应不上等问题。这些问题我们在插件的版本约束中说明。
 
 7.shareprefence
+
 因为插件的context实现,我们采用包裹宿主centext的方式,所以插件的shareprefence是与宿主共用的。也就是插件可以访问宿主的shareprefenc e,同时插件之间的shareprefence也是共享的。
+
 
 
 插件开发 
