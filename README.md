@@ -1,1 +1,20 @@
-# FragPlugin
+android插件化方案
+
+一、前言
+
+插件化的好处：
+
+1.动态功能更新，可以进行动态添加新功能而无需用户下载安装应用
+
+2.热修复，发现bug后，直接更新存在bug的插件，用户无需重新安装应用，甚至不需要关闭应用，bug即可修复。
+
+3.业务模块拆分，强制约束业务代码间的耦合度。
+
+二、主体方案
+
+按照业务把不同业务拆分成各个不同的子apk作为插件。主apk作为宿主,负责插件的加载、管理、升级等职责。
+
+按照安卓系统的特性,要完成上面的方案,首先要解决插件apk能够越过系统安装的过程,在后台自动安装。解决这个问题的目前的方案是不进行插 件apk的安装,而是提取插件apk中的dex文件,动态加载dex。这样逻辑代码部分就可以完成动态的加载。但这就引入了新的问题,资源和Activity 如何处理。
+
+资源的处理:因为目前我们只是动态加载了插件的dex文件,插件的资源并没有引入,这样会造成插件的资源无法使用。为了解决插件资源加载的问 题,我们知道,安卓中资源的获取是通过getResouce()这个方法进行的,而这个方法返回的Resource对象的构造函数中需要传入AssetManager对象 ,所以安卓的资源管理实际是通过Resource对象包裹的AssetManager对象来管理的,核心的资源管理是AssetManager负责。所以我们可以构造自己 的AssetManager来接管插件的资源管理。AssetManager中有一个addAssetPath的方法,此方法可以增加一个路径到AssetManager中,这样在AssetM anager资源时就可以去新增的路径中查找。所以为了插件的资源能够被AssetManager找到,我们通过调用该方法增加插件的资源路径到AssetManage r中。因为AssetManager是系统类,所以我们需要通过反射的方式调用该类的构造方法和addAssetPath方法。至此,我们构造了自己的AssetManager 并且AssetManager具有去插件路径加载资源的能力。但目前我们还没有把AssetManager与getResouce()联系起来。getResouce()方法是存在于Cont ext中的,所以我们只需为我们的每一个插件构造一个Context来实现重写getResouce()方法,在getResouce()实现中把我们构建的AssetManager对 象包裹进去即可。而我们的插件是与宿主在同一进程,同时也需要有访问宿主资源的能力,所以我们把宿主的Context作为插件的父Context,并重 写getResouce()方法,这样插件的资源就可以通过我们构造的插件Context来载入。资源的问题解决。
+Activity的处理:安卓系统接管了整个Activity的生命周期管理。要求所有的Activity必须在manifest中进行声明。否则无法启动。而插件中Activ ity是无法动态在宿主的manifest中声明的,所以为了解决这个问题,我们采用占坑+Fragment方式。占坑:即我们把插件的入口Activity在宿主的m anifest中声明,Fragment:即我们把插件的逻辑代码都通过Fragment实现,这样宿主的插件入口Activity只要动态替换Fragment就能达到页面跳转 等相关操作,基本能够替代原来Activity的页面管理方式。
