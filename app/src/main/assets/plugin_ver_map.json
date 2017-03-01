@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    {
+      "name": "plugin1",
+      "minver": 1001000
+    },
+    {
+      "name": "plugin2",
+      "minver": 1001000
+    }
+  ]
+}

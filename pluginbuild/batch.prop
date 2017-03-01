@@ -1,0 +1,1 @@
+plugins = p_collect, p_comp, p_exercise, p_guwen, p_kefu, p_message, p_photoselector, p_scanword, p_live, p_history, p_zxing, p_user, p_credit

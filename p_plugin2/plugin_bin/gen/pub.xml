@@ -1,0 +1,40 @@
+<!-- This file contains <public> resource definitions for all
+     resources that were generated from the source data. -->
+
+<resources>
+
+  <!-- PRIVATE SECTION.  These resources have not been declared public.
+       You can make them public my moving these lines into a file in res/values. -->
+
+  <!-- Declared at res/mipmap-mdpi-v4/ic_launcher.png:0 -->
+  <!-- Declared at res/mipmap-hdpi-v4/ic_launcher.png:0 -->
+  <!-- Declared at res/mipmap-xhdpi-v4/ic_launcher.png:0 -->
+  <!-- Declared at res/mipmap-xxhdpi-v4/ic_launcher.png:0 -->
+  <!-- Declared at res/mipmap-xxxhdpi-v4/ic_launcher.png:0 -->
+  <public type="mipmap" name="ic_launcher" id="0x7f020000" />
+
+  <!-- Declared at res/layout/fragment_first.xml:0 -->
+  <public type="layout" name="fragment_first" id="0x7f030000" />
+  <!-- Declared at res/layout/fragment_second.xml:0 -->
+  <public type="layout" name="fragment_second" id="0x7f030001" />
+
+  <!-- Declared at src/main/res/values-w820dp/dimens.xml:5 -->
+  <public type="dimen" name="activity_horizontal_margin" id="0x7f040000" />
+
+  <!-- Declared at src/main/res/values/strings.xml:2 -->
+  <public type="string" name="app_name" id="0x7f050000" />
+  <!-- Declared at src/main/res/values/strings.xml:3 -->
+  <public type="string" name="plugin2_string" id="0x7f050001" />
+  <!-- Declared at /Users/Lijj/Documents/studio_work/fragplugin/resource/src/main/res/values/strings.xml:3 -->
+  <public type="string" name="resource_string" id="0x7f050002" />
+
+  <!-- Declared at src/main/res/layout/fragment_first.xml:9 -->
+  <public type="id" name="plugin2_title" id="0x7f060000" />
+  <!-- Declared at src/main/res/layout/fragment_first.xml:18 -->
+  <public type="id" name="plugin2_appcomm" id="0x7f060001" />
+  <!-- Declared at src/main/res/layout/fragment_first.xml:27 -->
+  <public type="id" name="plugin2_resource" id="0x7f060002" />
+  <!-- Declared at src/main/res/layout/fragment_first.xml:36 -->
+  <public type="id" name="plugin2_nextpage" id="0x7f060003" />
+
+</resources>

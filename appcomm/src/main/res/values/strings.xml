@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">appcomm</string>
+
+    <string name="appcomm_string">我是appcomm的资源 string</string>
+</resources>

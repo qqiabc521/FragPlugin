@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FragPlugin.iml" filepath="$PROJECT_DIR$/FragPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appcomm/appcomm.iml" filepath="$PROJECT_DIR$/appcomm/appcomm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/p_plugin1/p_plugin1.iml" filepath="$PROJECT_DIR$/p_plugin1/p_plugin1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/p_plugin2/p_plugin2.iml" filepath="$PROJECT_DIR$/p_plugin2/p_plugin2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugindebug/plugindebug.iml" filepath="$PROJECT_DIR$/plugindebug/plugindebug.iml" />
+      <module fileurl="file://$PROJECT_DIR$/resource/resource.iml" filepath="$PROJECT_DIR$/resource/resource.iml" />
+    </modules>
+  </component>
+</project>

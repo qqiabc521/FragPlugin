@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">resource</string>
+    <string name="resource_string">我是公共resource Module的资源 resource_string</string>
+</resources>

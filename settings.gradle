@@ -1,0 +1,1 @@
+include ':app', ':base', ':resource', ':appcomm', ':plugindebug', ':p_plugin1', ':p_plugin2'

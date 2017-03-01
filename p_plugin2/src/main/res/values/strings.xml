@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">p_plugin2</string>
+    <string name="plugin2_string">我是plugin2 Module的资源 plugin2_string</string>
+</resources>

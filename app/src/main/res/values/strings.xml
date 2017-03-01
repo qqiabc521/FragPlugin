@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">fragplugin</string>
+    <string name="home_content">这个是宿主home页面</string>
+</resources>
